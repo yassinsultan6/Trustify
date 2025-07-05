@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustify - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Trustify</h1>
+        <p>Ensure the authenticity of online content with our analysis tools.</p>
+        
+        <div class="button-group">
+            <a href="{{ url_for('analyze_review') }}"><button>Analyze a Review</button></a>
+            <a href="{{ url_for('analyze_spam') }}"><button>Analyze Spam Message</button></a>
+            <a href="{{ url_for('analyze_fake_comment') }}"><button>Analyze Fake Comment</button></a>
+        </div>
+    </div>
+</body>
+</html>

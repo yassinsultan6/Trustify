@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustify - Spam Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Spam Analysis</h1>
+        <form action="/analyze_spam" method="post">
+            <label for="review_text">Enter text:</label>
+            <textarea id="review_text" name="review_text" required></textarea>
+            <button type="submit">Analyze</button>
+        </form>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustify - Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .multiple-reviews-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        .multiple-reviews-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .try-again-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+        
+        .try-again-btn:hover {
+            background-color: #218838;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            color: #000000;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .review-item {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .review-number {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .authenticity-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .authenticity-real {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .authenticity-fake {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .alignment-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+        
+        .alignment-aligned {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .alignment-not-aligned {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .review-content {
+            margin: 10px 0;
+            line-height: 1.5;
+            color: #000000;
+        }
+        
+        .review-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .summary-section {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-section h3 {
+            color: #000000;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .summary-item {
+            text-align: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+        }
+        
+        .summary-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .modal-content h2 {
+            color: #000000;
+        }
+        
+        .modal-content h3 {
+            color: #000000;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trustify - Result</h1>
+        <p><strong>Text:</strong> {{ review_text }}</p>
+        <p><strong>Result:</strong> {{ result }}</p>
+
+        {% if comparison_result %}
+            <p><strong>Comparison:</strong> {{ comparison_result }}</p>
+        {% endif %}
+
+        {% if multiple_reviews_report and multiple_reviews_report.total_reviews > 1 %}
+            <button class="multiple-reviews-btn" onclick="showMultipleReviews()">
+                View All {{ multiple_reviews_report.total_reviews }} Reviews Analysis
+            </button>
+        {% endif %}
+
+        <a href="/" class="try-again-btn">Try Again</a>
+    </div>
+
+    <!-- Multiple Reviews Modal -->
+    {% if multiple_reviews_report and multiple_reviews_report.total_reviews > 1 %}
+    <div id="multipleReviewsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMultipleReviews()">&times;</span>
+            <h2>📊 Comprehensive Review Analysis Report</h2>
+            
+            <div class="summary-section">
+                <h3>📈 Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-number">{{ multiple_reviews_report.total_reviews }}</div>
+                        <div class="summary-label">Total Reviews</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">{{ multiple_reviews_report.summary.real_count }}</div>
+                        <div class="summary-label">Real Reviews</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">{{ multiple_reviews_report.summary.fake_count }}</div>
+                        <div class="summary-label">Fake Reviews</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">{{ multiple_reviews_report.summary.aligned_count }}</div>
+                        <div class="summary-label">Aligned with Product</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>📝 Individual Review Analysis</h3>
+            {% for review in multiple_reviews_report.reviews_analyzed %}
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="review-number">Review #{{ review.review_number }}</span>
+                    <div>
+                        <span class="authenticity-badge authenticity-{{ review.authenticity.lower() }}">
+                            {{ review.authenticity }}
+                        </span>
+                        {% if review.alignment != "Not applicable" %}
+                        <span class="alignment-badge alignment-{{ review.alignment.lower().replace(' ', '-') }}">
+                            {{ review.alignment }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="review-content">
+                    {{ review.content }}
+                </div>
+                
+                <div class="review-meta">
+                    <strong>Length:</strong> {{ review.length }} characters
+                    {% if review.rating %}
+                    | <strong>Rating:</strong> {{ review.rating }}/5
+                    {% endif %}
+                    {% if review.common_keywords %}
+                    | <strong>Common Keywords:</strong> {{ review.common_keywords|join(', ') }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        function showMultipleReviews() {
+            document.getElementById('multipleReviewsModal').style.display = 'block';
+        }
+        
+        function closeMultipleReviews() {
+            document.getElementById('multipleReviewsModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('multipleReviewsModal');
+            if (event.target == modal) {
+                closeMultipleReviews();
+            }
+        }
+    </script>
+</body>
+</html>

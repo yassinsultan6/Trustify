@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustify - Analyze Review</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Trustify</h1>
+        <p>Choose an option to analyze a review:</p>
+        <form method="POST">
+            <label>
+                <input type="radio" name="input_type" value="link" checked> Submit a Link
+            </label>
+            <label>
+                <input type="radio" name="input_type" value="text"> Submit Text
+            </label>
+            <br><br>
+            <div id="link-input">
+                <input type="text" name="link" placeholder="Paste the review link here">
+            </div>
+            <div id="text-input" style="display: none;">
+                <textarea name="review_text" placeholder="Paste the review text here" rows="5" cols="40"></textarea>
+            </div>
+            <br>
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+
+    <script>
+        const linkRadio = document.querySelector('input[value="link"]');
+        const textRadio = document.querySelector('input[value="text"]');
+        const linkInput = document.getElementById('link-input');
+        const textInput = document.getElementById('text-input');
+
+        linkRadio.addEventListener('change', () => {
+            linkInput.style.display = 'block';
+            textInput.style.display = 'none';
+        });
+
+        textRadio.addEventListener('change', () => {
+            linkInput.style.display = 'none';
+            textInput.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

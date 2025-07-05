@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <title>Trustify | Smarter Protection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="animated-bg">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">Trustify</div>
+        <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+        <div class="navbar-right" id="navbar-links">
+            <a href="http://127.0.0.1:5000/pricing" class="nav-link">Pricing</a>
+            <a href="http://127.0.0.1:5000/login" class="nav-link">Login</a>
+        </div>
+    </nav>
+    
+
+        
+        <!-- Features Section -->
+        <section class="features">
+            <a href="/analyze_review" class="feature animate zoom-in delay-1">
+                <i class="fas fa-comment-slash fa-2x feature-icon hover-bounce"></i>
+                <h3>Fake Review Detection</h3>
+                <p>Detects misleading product reviews to improve trust in marketplaces and platforms.</p>
+            </a>
+        
+            <a href="/analyze_spam" class="feature animate zoom-in delay-2">
+                <i class="fas fa-shield-alt fa-2x feature-icon hover-bounce"></i>
+                <h3>Spam Filtering</h3>
+                <p>Filters out unwanted spam content to keep inboxes and communication channels clean.</p>
+            </a>
+        
+            <a href="/analyze_fake_comment" class="feature animate zoom-in delay-3">
+                <i class="fas fa-newspaper fa-2x feature-icon hover-bounce"></i>
+                <h3>Fake News Detection</h3>
+                <p>Identifies and flags misinformation in online articles and user-shared content to promote truth and transparency.</p>
+            </a>
+        </section>
+        
+        
+        
+    
+        <!-- Hero Section (visible after scrolling down) -->
+        <section class="hero light-bg">
+            <div class="hero-content">
+                <h1>Smarter Detection for Safer Interactions</h1>
+                <p>Trustify API helps platforms stay clean, secure, and authentic — by identifying fake reviews, spam, and unwanted messages.</p>
+                <a href="http://127.0.0.1:5000/signup" class="cta-button">For Developers</a>
+            </div>
+        </section>
+    
+    <footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Trustify. All rights reserved.</p>
+        <p><a href="#" class="footer-link">About</a> | <a href="#" class="footer-link">Contact</a></p>
+    </div>
+</footer>
+</div>
+
+
+        <script>
+            function toggleMenu() {
+                const navLinks = document.getElementById('navbar-links');
+                navLinks.classList.toggle('show');
+            }
+        </script>
+    
+        
+</body>
+</html>
